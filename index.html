@@ -155,46 +155,75 @@ If a payment method fails to load, please contact me directly on WhatsApp:
 <a href="https://wa.me/18706173027" target="_blank">+1 870-617-3027</a>
 </div>
 
-<form id="application-form">
-<label><div class="small-muted">Name / Alias</div><input type="text" id="field_name" required></label>
-<label><div class="small-muted">Email</div><input type="email" id="field_email" required></label>
-<label><div class="small-muted">Experience Level</div>
-<select id="field_level" required>
-<option>Beginner</option>
-<option>Intermediate</option>
-<option>Experienced</option>
-</select></label>
-<label><div class="small-muted">What you seek</div>
-<select id="field_seek" required>
+<form
+id="application-form"
+action="https://formspree.io/f/mkogqojg"
+method="POST"
+>
+<label>
+<div class="small-muted">Name / Alias</div>
+<input type="text" name="name" required>
+</label>
+
+<label>
+<div class="small-muted">Email</div>
+<input type="email" name="email" required>
+</label>
+
+<label>
+<div class="small-muted">Experience Level</div>
+<select name="level" required>
+<option value="Beginner">Beginner</option>
+<option value="Intermediate">Intermediate</option>
+<option value="Experienced">Experienced</option>
+</select>
+</label>
+
+<label>
+<div class="small-muted">What you seek</div>
+<select name="interest" required>
 <option>Lifestyle coaching</option>
 <option>Virtual roleplay</option>
 <option>Long-term obedience program</option>
 <option>Fetish guidance</option>
 <option>In-person consultation</option>
 <option>Marriage</option>
-</select></label>
-<label><div class="small-muted">Why should Mistress consider you?</div>
-<textarea id="field_why" required></textarea></label>
-<label><div class="small-muted">Boundaries / Hard limits</div>
-<textarea id="field_limits" required></textarea></label>
-<label style="display:flex; gap:6px; align-items:center;">
-<input type="checkbox" id="field_age" required>
-<span class="small-muted">I confirm I am 18+.</span>
-</label>
-<label style="display:flex; gap:6px; align-items:center;">
-<input type="checkbox" id="field_terms" required>
-<span class="small-muted">I agree to <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</span>
-</label>
-<label style="display:flex; gap:6px; align-items:center;">
-<input type="checkbox" id="field_payment" required>
-<span class="small-muted">I confirm I have made a payment via one of the above methods.</span>
+</select>
 </label>
 
-<div style="margin-top:8px; display:flex; gap:8px;">
+<label>
+<div class="small-muted">Why should Mistress consider you?</div>
+<textarea name="reason" required></textarea>
+</label>
+
+<label>
+<div class="small-muted">Boundaries / Hard limits</div>
+<textarea name="limits" required></textarea>
+</label>
+
+<label style="display:flex; gap:6px;">
+<input type="checkbox" required>
+<span class="small-muted">I confirm I am 18+.</span>
+</label>
+
+<label style="display:flex; gap:6px;">
+<input type="checkbox" required>
+<span class="small-muted">I agree to Terms & Privacy.</span>
+</label>
+
+<label>
+<div class="small-muted">Payment Status</div>
+<select name="payment_status" required>
+<option value="">Select one</option>
+<option value="Paid via payment link">Paid via payment link</option>
+<option value="Paid manually (link failed)">Paid manually (link failed)</option>
+<option value="Not yet paid – will pay after submit">Not yet paid</option>
+</select>
+</label>
+
 <button type="submit" class="btn">Submit Application</button>
-<button type="reset" class="btn secondary">Reset</button>
-</div>
 </form>
+
 
 <div style="margin-top:20px;">
 <h3>Tribute / Payment Options</h3>
@@ -203,59 +232,40 @@ If a payment method fails to load, please contact me directly on WhatsApp:
 <a class="btn" href="https://buy.apple.com/?phone=+13045215693" target="_blank">Apple Pay</a>
 <a class="btn" href="https://pay.chime.com/+13045215693" target="_blank">Chime</a>
 </div>
+ 
+<div class="card" style="margin-top:16px;">
+<h3>Manual Payment (If Links Fail)</h3>
+<p class="small-muted">
+If a payment link does not open, you may send payment manually
+using the details below and then submit your application.
+</p>
+
+<ul class="small-muted">
+<li><strong>PayPal:</strong> paypal.me/REMarty28</li>
+<li><strong>Venmo:</strong> @Dan-Chwalibog</li>
+<li><strong>Apple Pay:</strong> +1 304-521-5693</li>
+<li><strong>Chime:</strong> +1 304-521-5693</li>
+</ul>
+</div>
 
 <script>
-document.getElementById('application-form').addEventListener('submit', function (e) {
-e.preventDefault();
-
-const name = document.getElementById('field_name').value.trim();
-const email = document.getElementById('field_email').value.trim();
-const level = document.getElementById('field_level').value;
-const seek = document.getElementById('field_seek').value;
-const why = document.getElementById('field_why').value.trim();
-const limits = document.getElementById('field_limits').value.trim();
-const age = document.getElementById('field_age').checked;
-const terms = document.getElementById('field_terms').checked;
-const payment = document.getElementById('field_payment').checked;
-
-if (!name || !email || !level || !seek || !why || !limits || !age || !terms || !payment) {
-alert("Please complete all fields, confirm age, terms, and payment.");
-return;
-}
+document.getElementById("application-form").addEventListener("submit", function () {
+const data = new FormData(this);
 
 const msg = encodeURIComponent(
-`Application for Training Under Mistress Lizzy
-Name: ${name}
-Email: ${email}
-Level: ${level}
-Interest: ${seek}
-Reason: ${why}
-Limits: ${limits}`
+`Application for Training
+Name: ${data.get("name")}
+Email: ${data.get("email")}
+Level: ${data.get("level")}
+Interest: ${data.get("interest")}
+Payment Status: ${data.get("payment_status")}
+`
 );
 
-// ✅ Open WhatsApp IMMEDIATELY (user action)
-window.open(`https://wa.me/18706173027?text=${msg}`, "_blank");
-
-// ✅ Send to Formspree in background
-const formData = new FormData();
-formData.append("name", name);
-formData.append("email", email);
-formData.append("level", level);
-formData.append("interest", seek);
-formData.append("reason", why);
-formData.append("limits", limits);
-
-fetch("https://formspree.io/f/mkogqojg", {
-method: "POST",
-body: formData,
-headers: { "Accept": "application/json" }
-})
-.then(() => {
-document.getElementById('application-form').reset();
-})
-.catch(err => {
-console.error("Formspree error:", err);
-});
+window.open(
+`https://wa.me/18706173027?text=${msg}`,
+"_blank"
+);
 });
 </script>
 
@@ -271,5 +281,4 @@ console.error("Formspree error:", err);
 
 </div>
 </body>
-
 </html>
